@@ -1,0 +1,12 @@
+include __init__.c
+include __init__.py
+include __init__.pyx
+include TPI.pyd
+include TPI.pyx
+include TPI.c
+include TensorProductInterpolation.h
+include TensorProductInterpolation.c
+include setup.py
+include test.py
+include test/c_Mma_3D.dat
+include Makefile

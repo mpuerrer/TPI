@@ -1,0 +1,8 @@
+# Copyright 2017 Michael Puerrer
+#
+# License:  Standard 3-clause BSD; see "license.txt" for full license terms
+#           and contributor agreement.
+
+
+cdef class TP_Interpolant_ND:
+cdef class BsplineBasis1D:
