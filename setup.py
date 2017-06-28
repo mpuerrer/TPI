@@ -1,5 +1,23 @@
 # coding: utf-8
 
+#  Copyright (C) 2017, Michael Pürrer, Jonathan Blackman.
+#
+#  This file is part of TPI.
+#
+#  TPI is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  TPI is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with TPI.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 import numpy
 from distutils.core import setup
 from distutils.extension import Extension
@@ -77,14 +95,14 @@ if USE_CYTHON:
 
 setup(
     name="TPI",
-    version = VERSION,
+    version=VERSION,
     ext_modules=extensions,
-    author="Michael Pürrer",
+    author="Michael Pürrer, Jonathan Blackman",
     author_email="Michael.Puerrer@gmail.com",
-    description = short_desc,
-    long_description = long_desc,
-    classifiers = [x for x in cls_txt.split("\n") if x],
-    install_requires = SETUP_REQUIRES
-    # url=
+    description=short_desc,
+    long_description=long_desc,
+    classifiers=[x for x in cls_txt.split("\n") if x],
+    install_requires=SETUP_REQUIRES,
+    url="https://github.com/mpuerrer/TPI"
 )
 
