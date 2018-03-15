@@ -150,7 +150,7 @@ cdef class TP_Interpolant_ND:
         
         """
         self.nodes = nodes
-        self.n = len(nodes)
+        self.n = len(nodes) # number of parameter space dimensions
         if not np.array(map(lambda x: isinstance(x, np.ndarray), nodes)).all():
             raise TypeError("Expected list of numpy.ndarrays.")
         self.nodes_c = <array*> PyMem_Malloc(self.n * sizeof(array))
@@ -217,9 +217,19 @@ cdef class TP_Interpolant_ND:
                 x_min = self.nodes[i][0]
                 x_max = self.nodes[i][-1]
                 if (X[i] < x_min or X[i] > x_max):
-                    raise ValueError("Error in TP_Interpolation_ND: X[%d] = %g "
+                    raise ValueError("TP_Interpolation_ND: X[%d] = %g "
                     "is outside of knots vector [%g, %g]!\n", i, X[i], x_min, x_max);
         return y
+
+    def __call__(self, X):
+        X_array = np.atleast_1d(np.array(X, dtype=np.double))
+        if len(X_array.shape) != 1:
+            raise ValueError("Evaluation point X is more than one-dimensional!")
+        if X_array.shape[0] != self.n:
+            raise ValueError("Expected X to be array of length %d, "
+            "but got length %d"%(self.n, X_array.shape[0]))
+
+        return self.TPInterpolationND(X_array)
 
     def ComputeSplineCoefficientsND(self, F):
         """Compute tensor product spline coefficients on the stored grid using data F.
@@ -256,9 +266,6 @@ cdef class TP_Interpolant_ND:
         for minv in inv_1d_matrices[::-1]:
             tmp_result = np.tensordot(minv, tmp_result, (1, d - 1))
         self.c = tmp_result
-
-    def __call__(self, np.ndarray[np.double_t,ndim=1] X):
-        return self.TPInterpolationND(X)
 
     def GetSplineCoefficientsND(self):
         return self.c

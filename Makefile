@@ -1,5 +1,8 @@
 all:
-	python setup.py build_ext -i
+	python setup.py build_ext --inplace
+
+install-user:
+	python setup.py build_ext install --user
 	
 check:
 	pytest test.py -s

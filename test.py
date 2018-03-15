@@ -25,14 +25,14 @@
 """
 TPI.pyx
 
-designed to be run-able with py.test
+designed to be run-able with pytest
 
 MP 02/2017
 """
 
 import pytest
 import numpy as np
-import TPI # FIXME: should this be lowercase?
+import TPI
 
 def test_BsplineBasis1D():
     x1 = np.array([1.1, 3.2, 5.1, 7.2, 9.3, 12])
@@ -202,7 +202,7 @@ def test_TP_spline_interpolation_3D():
 
     c_Mma = np.loadtxt("test/c_Mma_3D.dat") # grab external coefficient data exported from Mathematica
     assert len(c_TPI.flatten()) == len(c_Mma)
-    assert np.allclose(c_TPI.flatten(), c_Mma, atol=1e-13, rtol=0)
+    assert np.allclose(c_TPI.flatten(), c_Mma, atol=1e-12, rtol=0)
 
     # Check evaluated interpolant
     Y = np.array([0.1692602, 0.2827312351474, -0.26624193])

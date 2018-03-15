@@ -45,9 +45,14 @@ pip install --user
 TPI requires GSL, the GNU Scientific Library.
 The project homepage is http://www.gnu.org/software/gsl/
 
-TPI works with gsl 1.16, but not currently with gsl 2.x.
+TPI works with gsl 1.16 (and possibly some earlier versions), but not currently with gsl 2.x.
 ```
 gsl-config --version
 ```
 
+If you are on OS X and are using brew (https://brew.sh/) you may need to install an older version.
+If you have multiple versions of gsl installed you can select a version < 2.x
+```
+brew switch gsl 1.16
+```
 
