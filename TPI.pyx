@@ -136,14 +136,18 @@ cdef class TP_Interpolant_ND:
     cdef nodes, n
     cdef c, knots_list
 
-    def __init__(self, list nodes, coeffs=None):
+    def __init__(self, list nodes, coeffs=None, F=None):
         """Constructor
 
         Arguments:
-          * nodes: list of 1D arrays defining grid points in each dimension [ x1, x2, x3, ..., xn ]
-                   The 1D numpy arrays x1, ... xn can have arbitrary length and spacing. 
-                   Together, the arrays in nodesND define a Cartesian product grid.
-          * coeffs: (optional) tensor product spline coefficients
+          * nodes:  list of 1D arrays defining grid points in each dimension [ x1, x2, x3, ..., xn ]
+                    The 1D numpy arrays x1, ... xn can have arbitrary length and spacing. 
+                    Together, the arrays in nodesND define a Cartesian product grid.
+          * coeffs: (optional) tensor product spline coefficients previously obtained from
+                    GetSplineCoefficientsND()
+          * F:      (optional) data to be interpolated on the Cartesian product grid.
+                    The shape of `F` must agree with the list of lengths of 1D arrays in `nodes`.
+        
         """
         self.nodes = nodes
         self.n = len(nodes)
@@ -159,6 +163,8 @@ cdef class TP_Interpolant_ND:
         self.TPInterpolationSetupND()
         if coeffs is not None:
             self.SetSplineCoefficientsND(coeffs)
+        if F is not None:
+            self.ComputeSplineCoefficientsND(F)
 
         # Should do this in module __init__.py
         cdef gsl_error_handler_t *old_handler = gsl_set_error_handler(<gsl_error_handler_t *> handler);
@@ -250,6 +256,9 @@ cdef class TP_Interpolant_ND:
         for minv in inv_1d_matrices[::-1]:
             tmp_result = np.tensordot(minv, tmp_result, (1, d - 1))
         self.c = tmp_result
+
+    def __call__(self, np.ndarray[np.double_t,ndim=1] X):
+        return self.TPInterpolationND(X)
 
     def GetSplineCoefficientsND(self):
         return self.c
