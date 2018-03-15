@@ -44,7 +44,7 @@ void TP_Interpolation_Setup_ND(
         bw[j] = gsl_bspline_alloc(4, nbreak);
         gsl_vector *breakpts = gsl_vector_alloc(nbreak);
 
-        for (int i=0; i<nbreak; i++)
+        for (size_t i=0; i<nbreak; i++)
             gsl_vector_set(breakpts, i, nodes[j].vec[i]);
 
         gsl_bspline_knots(breakpts, bw[j]);
@@ -303,7 +303,7 @@ int Interpolation_Setup_1D(
 
     gsl_vector *breakpts_x = gsl_vector_alloc(nbreak_x);
 
-    for (int i=0; i<nbreak_x; i++)
+    for (size_t i=0; i<nbreak_x; i++)
       gsl_vector_set(breakpts_x, i, xvec[i]);
 
     gsl_bspline_knots(breakpts_x, *bw);
@@ -332,7 +332,7 @@ int Bspline_basis_1D(
     gsl_vector *B = gsl_vector_alloc(bw->n);
     gsl_bspline_eval(x, B, bw);
 
-    for (int i=0; i<bw->n; i++)
+    for (size_t i=0; i<bw->n; i++)
         B_array[i] = gsl_vector_get(B, i);
 
     // FIXME: add gsl_vector_free(B);
@@ -360,7 +360,7 @@ int Bspline_basis_3rd_derivative_1D(
     gsl_matrix *D3_B = gsl_matrix_alloc(bw->n, n_deriv+1);
     gsl_bspline_deriv_eval(x, n_deriv, D3_B, bw, Dbw); // fine for GSL 1.16; last argument not used in new GSL versions
 
-    for (int i=0; i<bw->n; i++)
+    for (size_t i=0; i<bw->n; i++)
         D3_B_array[i] = gsl_matrix_get(D3_B, i, 3); // just copy the 3rd derivative
 
     return TPI_SUCCESS;
