@@ -40,3 +40,14 @@ python setup.py sdist
 pip install --user
 ```
 
+## Dependencies
+
+TPI requires GSL, the GNU Scientific Library.
+The project homepage is http://www.gnu.org/software/gsl/
+
+TPI works with gsl 1.16, but not currently with gsl 2.x.
+```
+gsl-config --version
+```
+
+
