@@ -18,8 +18,8 @@
 #  along with TPI.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 
 # an exception just to confirm that the .so file is loaded instead of the .py file
 #raise ImportError("__init__.py loaded when __init__.so should have been loaded")
-print "__init__.py loaded when __init__.so should have been loaded"
+print("__init__.py loaded when __init__.so should have been loaded")

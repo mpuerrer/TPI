@@ -18,16 +18,18 @@
 #  along with TPI.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__  import print_function
+
 import numpy
 from distutils.core import setup
 from distutils.extension import Extension
 
 try:
     from Cython.Build import cythonize
-    print 'Using Cython'
+    print('Using Cython')
     USE_CYTHON = True
 except:
-    print 'Not using Cython'
+    print('Not using Cython')
     USE_CYTHON = False
 
 
