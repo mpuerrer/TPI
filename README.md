@@ -18,3 +18,25 @@ TP_Interpolant_ND:
   * Spline coefficient data can be returned or set, so that the setup and solution of 
     the interpolation problem can be separated, by writing the coefficient data to disk.
 
+# Installation
+
+To install to the system python folder run
+
+```
+  python setup.py build_ext
+  sudo python setup.py install
+```
+
+If you do not have admin rights you can install locally
+
+```
+  python setup.py build_ext
+  python setup.py build_ext install --user
+```
+
+You can create a source distribution and then install the package with pip
+```
+python setup.py sdist
+pip install --user
+```
+
