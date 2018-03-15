@@ -1,0 +1,3 @@
+  * add partial derivatives of TP splines
+  * Solve linear systems instead of using inverses?
+  * Add generic function for partial derivatives
