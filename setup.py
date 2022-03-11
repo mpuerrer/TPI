@@ -33,8 +33,16 @@ except:
     USE_CYTHON = False
 
 
+from distutils.command.build_ext import build_ext
+def get_export_symbols_fixed(self, ext):
+    pass  # return [] also does the job!
 
-VERSION = '0.1'
+    # replace wrong version with the fixed:
+    build_ext.get_export_symbols = get_export_symbols_fixed
+
+
+
+VERSION = '0.2'
 
 NUMPY_DEP = 'numpy>=1.11'
 

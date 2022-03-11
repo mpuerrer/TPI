@@ -151,7 +151,7 @@ cdef class TP_Interpolant_ND:
         """
         self.nodes = nodes
         self.n = len(nodes) # number of parameter space dimensions
-        if not np.array(map(lambda x: isinstance(x, np.ndarray), nodes)).all():
+        if not np.array(list(map(lambda x: isinstance(x, np.ndarray), nodes))).all():
             raise TypeError("Expected list of numpy.ndarrays.")
         self.nodes_c = <array*> PyMem_Malloc(self.n * sizeof(array))
         if self.nodes_c == NULL:
@@ -240,7 +240,7 @@ cdef class TP_Interpolant_ND:
 
         """
         nodesND = self.nodes
-        dims = map(len, nodesND)
+        dims = list(map(len, nodesND))
         d = len(dims)
 
         if not np.shape(F) == tuple(dims):
@@ -285,7 +285,7 @@ cdef class TP_Interpolant_ND:
                holding the tensor product spline coefficients
 
         """
-        dims = map(lambda x: len(x) + 2, self.nodes)
+        dims = list(map(lambda x: len(x) + 2, self.nodes))
 
         if not np.shape(coeffs) == tuple(dims):
             raise ValueError("Spline coefficients should have shape {}".format(dims))

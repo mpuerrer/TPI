@@ -50,6 +50,7 @@ def test_BsplineBasis1D():
     # print 'Db_eval_Mma - Db_eval_TPI', Db_eval_Mma - Db_eval_TPI
     assert np.allclose(Db_eval_Mma, Db_eval_TPI, atol=atol, rtol=0)
 
+
 def test_BsplineBasis1D_fail():
     with pytest.raises(ValueError):
         x2 = np.array([1.1, -3.2, 5.1, 7.2, 9.3, 12])
@@ -200,7 +201,7 @@ def test_TP_spline_interpolation_3D():
         c = []
         TPint.SetSplineCoefficientsND(c)
 
-    c_Mma = np.loadtxt("test/c_Mma_3D.dat") # grab external coefficient data exported from Mathematica
+    c_Mma = np.loadtxt("data/c_Mma_3D.dat") # grab external coefficient data exported from Mathematica
     assert len(c_TPI.flatten()) == len(c_Mma)
     assert np.allclose(c_TPI.flatten(), c_Mma, atol=1e-12, rtol=0)
 
@@ -303,3 +304,16 @@ def test_TP_spline_interpolation_7D():
     with pytest.raises(ValueError):
         Y = np.array([-16.9, 26.02, 28.2731, 23.51474, -2.6624, 193.3, 9915.1])
         res = TPint.TPInterpolationND(Y)
+
+
+# Hack for running tests since pytest does not import the Cython module under python3
+if __name__ == "__main__":
+    test_BsplineBasis1D()
+    test_BsplineBasis1D_fail()
+    test_SplineMatrix()
+    test_TP_spline_interpolation_1D()
+    test_TP_spline_interpolation_2D()
+    test_TP_spline_interpolation_3D()
+    test_TP_spline_interpolation_4D()
+    test_TP_spline_interpolation_7D()
+    print('All tests passed successfully')

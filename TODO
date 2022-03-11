@@ -1,3 +1,7 @@
+  * Fix broken tests for Python3: pytest is not able to import the Cython modules.
   * add partial derivatives of TP splines
   * Solve linear systems instead of using inverses?
   * Add generic function for partial derivatives
+  * Implement other boundary conditions (e.g. periodic)
+  * Allow increasing or decreasing parameters
+  * caching of splines, optimized evaluation for a monotonic array of input values

@@ -306,6 +306,14 @@ int Interpolation_Setup_1D(
     for (size_t i=0; i<nbreak_x; i++)
       gsl_vector_set(breakpts_x, i, xvec[i]);
 
+    // gsl computes the knots from the given breakpoints (Python notation):
+    //
+    //   knots[:4] = breakpts_x[0]
+    //   knots[4:-3] = breakpts_x[1:-1]
+    //   knots[-3:] = breakpts_x[-1]
+    //
+    // where k is the spline order, k=4 for cubic.
+    // Thus, len(knots) = len(breakpts_x) + 2*3.
     gsl_bspline_knots(breakpts_x, *bw);
 
     gsl_vector_free(breakpts_x);
