@@ -40,19 +40,22 @@ python setup.py sdist
 pip install --user
 ```
 
+TPI supports Python 3. Running the unit tests with pytests is broken; however, you can run the tests as follows since they are now called from main:
+```
+python3 test.py
+```
+
 ## Dependencies
 
 TPI requires GSL, the GNU Scientific Library.
 The project homepage is http://www.gnu.org/software/gsl/
 
-TPI works with gsl 1.16 (and possibly some earlier versions), but not currently with gsl 2.x.
+
+TPI now supports gsl 2.x (It has been tested with gsl 2.7.1).
 ```
 gsl-config --version
 ```
 
-If you are on OS X and are using brew (https://brew.sh/) you may need to install an older version.
-If you have multiple versions of gsl installed you can select a version < 2.x
-```
-brew switch gsl 1.16
-```
+On OS X you can use "brew" (https://brew.sh/) to install gsl.
+Note that the "brew switch" command which could be used to select a particular version of a software package, no longer exists.
 
