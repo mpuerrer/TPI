@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Michael Pürrer, Jonathan Blackman.
+ * Copyright (C) 2017, 2022 Michael Pürrer, Jonathan Blackman.
  *
  *  This file is part of TPI.
  *
@@ -32,8 +32,7 @@
 int Interpolation_Setup_1D(
     double *xvec,                       // Input: knots: FIXME: knots are calculate internally, so shouldn't need to do that here
     int nx,                             // Input length of knots array xvec
-    gsl_bspline_workspace **bw,         // Output: Initialized B-spline workspace
-    gsl_bspline_deriv_workspace **Dbw   // Output: Initialized B-spline derivative workspace
+    gsl_bspline_workspace **bw          // Output: Initialized B-spline workspace
 );
 
 int Bspline_basis_1D(
@@ -49,7 +48,6 @@ int Bspline_basis_3rd_derivative_1D(
                                         // B-splines B_i(x) for the knots defined in bw
     int n,                              // Input: length of Bx4_array
     gsl_bspline_workspace *bw,          // Input: Initialized B-spline workspace
-    gsl_bspline_deriv_workspace *Dbw,   // Input: Initialized B-spline derivative workspace
     double x                            // Input: evaluation point
 );
 

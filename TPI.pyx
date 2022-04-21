@@ -1,4 +1,4 @@
-# Copyright 2017 Michael Puerrer, Jonathan Blackman.
+# Copyright 2017, 2022 Michael Puerrer, Jonathan Blackman.
 #
 #  This file is part of TPI.
 #
@@ -30,16 +30,12 @@ from cpython.mem cimport PyMem_Malloc, PyMem_Free
 cdef extern from "gsl/gsl_bspline.h":
     ctypedef struct gsl_bspline_workspace:
         pass
-    ctypedef struct gsl_bspline_deriv_workspace:
-        pass
-
     ctypedef struct gsl_vector:
         pass
     ctypedef struct gsl_matrix:
         pass
 
     void gsl_bspline_free(gsl_bspline_workspace *w);
-    void gsl_bspline_deriv_free(gsl_bspline_deriv_workspace *w);
 
 
 cdef extern from "TensorProductInterpolation.h":
@@ -52,8 +48,7 @@ cdef extern from "TensorProductInterpolation.h":
     int Interpolation_Setup_1D(
         double *xvec,
         int nx,
-        gsl_bspline_workspace **bw,
-        gsl_bspline_deriv_workspace **Dbw
+        gsl_bspline_workspace **bw
     );
 
     int Bspline_basis_1D(
@@ -67,7 +62,6 @@ cdef extern from "TensorProductInterpolation.h":
         double *D3_B_array,
         int n,
         gsl_bspline_workspace *bw,
-        gsl_bspline_deriv_workspace *Dbw,
         double x
     );
 
@@ -304,7 +298,6 @@ cdef class BsplineBasis1D:
     """
 
     cdef gsl_bspline_workspace *bw
-    cdef gsl_bspline_deriv_workspace *Dbw
     cdef xi, nbasis, n
 
     def __init__(self, xvec_in):
@@ -324,9 +317,8 @@ cdef class BsplineBasis1D:
         if (np.isnan(self.xi).any()):
             raise ValueError("At least one of the input nodes is nan.")
         self.bw = NULL
-        self.Dbw = NULL
         cdef np.ndarray[np.double_t,ndim=1] xvec = xvec_in
-        self.nbasis = Interpolation_Setup_1D(<double*> xvec.data, len(xvec), &self.bw, &self.Dbw)
+        self.nbasis = Interpolation_Setup_1D(<double*> xvec.data, len(xvec), &self.bw)
         if self.nbasis == TPI_FAIL:
             raise ValueError("Error: Interpolation_Setup_1D(): B-spline workspace pointers"
                              " should be NULL.\n")
@@ -337,8 +329,6 @@ cdef class BsplineBasis1D:
         """
         if self.bw != NULL:
             gsl_bspline_free(self.bw)
-        if self.Dbw != NULL:
-            gsl_bspline_deriv_free(self.Dbw)
 
     def EvaluateBsplines(self, x):
         """Evaluate the B-spline basis functions at point x.
@@ -371,7 +361,7 @@ cdef class BsplineBasis1D:
         """
         cdef np.ndarray[np.double_t, ndim=1] DB_array = np.zeros(self.nbasis)
         cdef int i = Bspline_basis_3rd_derivative_1D(<double*> DB_array.data,
-                                            self.nbasis, self.bw, self.Dbw, x)
+                                            self.nbasis, self.bw, x)
         if i == TPI_FAIL:
             raise ValueError("Error: Bspline_basis_3rd_derivative_1D(): x: "
             "%g is outside of knots vector with bounds [%g, %g]!\n", 

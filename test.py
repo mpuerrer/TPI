@@ -307,6 +307,7 @@ def test_TP_spline_interpolation_7D():
 
 
 # Hack for running tests since pytest does not import the Cython module under python3
+# Just run: python3 test.py
 if __name__ == "__main__":
     test_BsplineBasis1D()
     test_BsplineBasis1D_fail()

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Michael Pürrer, Jonathan Blackman.
+ * Copyright (C) 2017, 2022 Michael Pürrer, Jonathan Blackman.
  *
  *  This file is part of TPI.
  *  
@@ -171,20 +171,18 @@ int TP_Interpolation_ND(
 int Interpolation_Setup_1D(
     double *xvec,                       // Input: knots: FIXME: knots are calculate internally, so shouldn't need to do that here
     int nx,                             // Input length of knots array xvec
-    gsl_bspline_workspace **bw,         // Output: Initialized B-spline workspace
-    gsl_bspline_deriv_workspace **Dbw   // Output: Initialized B-spline derivative workspace
+    gsl_bspline_workspace **bw          // Output: Initialized B-spline workspace
 ) {
     int ncx = nx + 2;
 
     // Setup cubic B-spline workspace
     const size_t nbreak_x = ncx-2;  // must have nbreak = n-2 for cubic splines
 
-    if (*bw || *Dbw) {
+    if (*bw) {
         fprintf(stderr, "Error: Interpolation_Setup_1D(): B-spline workspace pointers should be NULL.\n");
         return TPI_FAIL;
     }
     *bw = gsl_bspline_alloc(4, nbreak_x);
-    *Dbw = gsl_bspline_deriv_alloc(4);
 
     gsl_vector *breakpts_x = gsl_vector_alloc(nbreak_x);
 
@@ -230,7 +228,6 @@ int Bspline_basis_3rd_derivative_1D(
                                       // B-splines B_i(x) for the knots defined in bw
     int n,                            // Input: length of Bx4_array
     gsl_bspline_workspace *bw,        // Input: Initialized B-spline workspace
-    gsl_bspline_deriv_workspace *Dbw, // Input: Initialized B-spline derivative workspace
     double x                          // Input: evaluation point
 ) {
     double a = gsl_vector_get(bw->knots, 0);
@@ -242,7 +239,7 @@ int Bspline_basis_3rd_derivative_1D(
 
     size_t n_deriv = 3;
     gsl_matrix *D3_B = gsl_matrix_alloc(bw->n, n_deriv+1);
-    gsl_bspline_deriv_eval(x, n_deriv, D3_B, bw, Dbw); // fine for GSL 1.16; last argument not used in new GSL versions
+    gsl_bspline_deriv_eval(x, n_deriv, D3_B, bw);
 
     for (int i=0; i<bw->n; i++)
         D3_B_array[i] = gsl_matrix_get(D3_B, i, 3); // just copy the 3rd derivative
