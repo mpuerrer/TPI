@@ -66,7 +66,7 @@ cls_txt = \
 """
 Development Status :: 5 - Production/Stable
 Intended Audience :: Science/Research
-License :: OSI Approved :: BSD License
+License :: OSI Approved :: GNU General Public License v3 (GPLv3)
 Programming Language :: Cython
 Programming Language :: Python
 Programming Language :: Python :: Implementation :: CPython

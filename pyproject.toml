@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tpi-splines"
-version = "1.0.0"
+version = "1.0.1"
 description = "Tensor product spline interpolation package"
 readme = "README.md"
 authors = [{ name = "Michael Pürrer, Jonathan Blackman", email = "Michael.Puerrer@gmail.com" }]
@@ -14,7 +14,7 @@ license = { file = "license.rst" }
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: BSD License",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Programming Language :: Cython",
     "Programming Language :: Python",
     "Programming Language :: Python :: Implementation :: CPython",
