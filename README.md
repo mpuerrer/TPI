@@ -40,10 +40,16 @@ python setup.py sdist
 pip install --user
 ```
 
-TPI supports Python 3. Running the unit tests with pytests is broken; however, you can run the tests as follows since they are now called from main:
+or you can build the package using
 ```
-python3 test.py
+python3 -m build
 ```
+
+
+You can also install the package via https://pypi.org/project/tpi-splines/.
+
+TPI supports Python 3. Unit tests can be run with pytest.
+
 
 ## Dependencies
 

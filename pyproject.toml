@@ -1,0 +1,37 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel", "cython ~= 0.29.0", "numpy>=1.11"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tpi-splines"
+version = "1.0.0"
+description = "Tensor product spline interpolation package"
+readme = "README.md"
+authors = [{ name = "Michael Pürrer, Jonathan Blackman", email = "Michael.Puerrer@gmail.com" }]
+license = { file = "license.rst" }
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Cython",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: Unix",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X"
+]
+keywords = ["feed", "reader", "tutorial"]
+dependencies = [
+    "numpy>=1.11",
+]
+requires-python = ">=3.0"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/mpuerrer/TPI"

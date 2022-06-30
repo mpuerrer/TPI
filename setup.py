@@ -42,7 +42,7 @@ def get_export_symbols_fixed(self, ext):
 
 
 
-VERSION = '0.2'
+VERSION = '1.0.0'
 
 NUMPY_DEP = 'numpy>=1.11'
 
@@ -64,7 +64,7 @@ extensions=[
 
 cls_txt = \
 """
-Development Status :: 3 - Alpha
+Development Status :: 5 - Production/Stable
 Intended Audience :: Science/Research
 License :: OSI Approved :: BSD License
 Programming Language :: Cython
