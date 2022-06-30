@@ -32,6 +32,7 @@ MP 02/2017
 
 import pytest
 import numpy as np
+import os
 import TPI
 
 def test_BsplineBasis1D():
@@ -58,12 +59,12 @@ def test_BsplineBasis1D_fail():
 
     with pytest.raises(ValueError):
         x1 = np.array([1.1, 3.2, 5.1, 7.2, 9.3, 12])
-        b = TPI.BsplineBasis1D(x1)    
+        b = TPI.BsplineBasis1D(x1)
         b_eval_TPI = b.EvaluateBsplines(-4.7)
 
     with pytest.raises(ValueError):
         x1 = np.array([1.1, 3.2, 5.1, 7.2, 9.3, 12])
-        b = TPI.BsplineBasis1D(x1)    
+        b = TPI.BsplineBasis1D(x1)
         b_eval_TPI = b.EvaluateBsplines3rdDerivatives(-4.7)
 
     with pytest.raises(ValueError):
@@ -103,7 +104,7 @@ def test_SplineMatrix():
     b_phi, b_knots = b.AssembleSplineMatrix()
     knots = np.array([1.1, 1.1, 1.1, 1.1, 3.2, 5.1, 7.2, 9.3, 12, 12, 12, 12])
     assert np.array_equal(b_knots, knots)
-    
+
     # Test spline matrix with not-a-knot boundary conditions
     phi = np.array([[-0.647878198898607, 1.363954102944436, -1.0920157536698896, 0.505361765068409, -0.1294219154443486, 0, 0, 0],
     [1., 0., 0., 0., 0, 0, 0, 0],
@@ -113,7 +114,7 @@ def test_SplineMatrix():
     [0, 0, 0, 0, 0.22010869565217378, 0.588485054347826, 0.1914062500000001, 0.],
     [0, 0, 0, 0, 0., 0., 0., 1.],
     [0, 0, 0, -0.11152001784320278, 0.3634726507482166, -0.6438789507572575, 0.6967578984039893, -0.30483158055174536]])
-  
+
     # print 'b_phi - phi', np.matrix(b_phi - phi)
     assert np.allclose(b_phi, phi, atol=atol, rtol=0)
 
@@ -129,11 +130,11 @@ def test_TP_spline_interpolation_1D():
     TPint = TPI.TP_Interpolant_ND(X)
     TPint.TPInterpolationSetupND()
     TPint.ComputeSplineCoefficientsND(F)
-    
+
     # Check coefficients
     c_TPI = TPint.GetSplineCoefficientsND()
     assert c_TPI.shape[0] == 12
-    
+
     # Check evaluated interpolant
     Y = np.array([0.16])
     res = TPint.TPInterpolationND(Y)
@@ -154,11 +155,11 @@ def test_TP_spline_interpolation_2D():
     TPint = TPI.TP_Interpolant_ND(X)
     TPint.TPInterpolationSetupND()
     TPint.ComputeSplineCoefficientsND(F)
-    
+
     # Check coefficients
     c_TPI = TPint.GetSplineCoefficientsND()
     assert c_TPI.shape == (12, 15)
-    
+
     # Check evaluated interpolant
     Y = np.array([0.16, 0.28])
     res = TPint.TPInterpolationND(Y)
@@ -187,7 +188,7 @@ def test_TP_spline_interpolation_3D():
     # Check coefficients
     c_TPI = TPint.GetSplineCoefficientsND()
     assert c_TPI.shape == (12, 15, 11)
-    
+
     TPint.SetSplineCoefficientsND(c_TPI)
 
     with pytest.raises(TypeError):
@@ -201,7 +202,8 @@ def test_TP_spline_interpolation_3D():
         c = []
         TPint.SetSplineCoefficientsND(c)
 
-    c_Mma = np.loadtxt("data/c_Mma_3D.dat") # grab external coefficient data exported from Mathematica
+    pth = os.path.abspath(os.path.dirname(__file__))
+    c_Mma = np.loadtxt(f"{pth}/../data/c_Mma_3D.dat") # grab external coefficient data exported from Mathematica
     assert len(c_TPI.flatten()) == len(c_Mma)
     assert np.allclose(c_TPI.flatten(), c_Mma, atol=1e-12, rtol=0)
 
@@ -241,11 +243,11 @@ def test_TP_spline_interpolation_4D():
     TPint = TPI.TP_Interpolant_ND(X)
     TPint.TPInterpolationSetupND()
     TPint.ComputeSplineCoefficientsND(F)
-    
+
     # Check coefficients
     c_TPI = TPint.GetSplineCoefficientsND()
     assert c_TPI.shape == (12, 15, 11, 9)
-    
+
     # Check evaluated interpolant
     Y = np.array([0.16, 0.28, -0.26, 0.05])
     res = TPint.TPInterpolationND(Y)
@@ -261,7 +263,7 @@ def test_TP_spline_interpolation_7D():
     #     return x
     #
     # X = [gen() for i in range(7)]
-  
+
     X = [np.array([ 0.04210023,  0.08049712,  0.10439003,  0.23567061,  0.26747638,
          0.51894333,  0.87695656,  1.13424169]),
    np.array([ 0.06512773,  0.10554492,  0.30739299,  0.52934042,  0.53375456,
@@ -286,11 +288,11 @@ def test_TP_spline_interpolation_7D():
     TPint = TPI.TP_Interpolant_ND(X)
     TPint.TPInterpolationSetupND()
     TPint.ComputeSplineCoefficientsND(F)
-    
+
     # Check coefficients
     c_TPI = TPint.GetSplineCoefficientsND()
     assert c_TPI.shape == (10, 11, 10, 11, 7, 13, 11)
-    
+
     # Check evaluated interpolant
     Y = np.array([0.673, 0.2836, 0.734, 0.089, 0.619, 1.782, 4.96])
     res_expected = 140.401088491
@@ -308,6 +310,7 @@ def test_TP_spline_interpolation_7D():
 
 # Hack for running tests since pytest does not import the Cython module under python3
 # Just run: python3 test.py
+'''
 if __name__ == "__main__":
     test_BsplineBasis1D()
     test_BsplineBasis1D_fail()
@@ -318,3 +321,4 @@ if __name__ == "__main__":
     test_TP_spline_interpolation_4D()
     test_TP_spline_interpolation_7D()
     print('All tests passed successfully')
+'''
