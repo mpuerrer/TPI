@@ -46,7 +46,14 @@ python3 -m build
 ```
 
 
-You can also install the package via https://pypi.org/project/tpi-splines/.
+You can also install the package via https://pypi.org/project/tpi-splines/
+or via conda (for osx-64):
+
+
+```
+conda install -c mpuerrer tpi-splines 
+```
+
 
 TPI supports Python 3. Unit tests can be run with pytest.
 
