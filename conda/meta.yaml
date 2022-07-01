@@ -1,0 +1,46 @@
+{% set name = "tpi-splines" %}
+{% set version = "1.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+build:
+  skip: true  # [py2k]
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/tpi-splines-{{ version }}.tar.gz
+  sha256: a6d1e3f0d7977a39a27c634ee5c688df25afcdc06228ecfab965ae8caf0342f9
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - gsl
+  host:
+    - cython
+    - numpy
+    - pip
+    - python
+    - gsl
+  run:
+    - python
+    - {{ pin_compatible('numpy') }}
+
+test:
+  imports:
+    - TPI
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/mpuerrer/TPI
+  summary: Tensor product spline interpolation package
+  license_file: license.rst
+
+extra:
+  recipe-maintainers:
+    - mpuerrer
